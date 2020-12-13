@@ -4,7 +4,7 @@ info:
   description: API for AcreBin DB
   version: '0.1'
 servers:
-  - url: http://acrebin.api.evanhallmark.com
+  - url: https://acrebin.api.evanhallmark.com
 paths:
   /listings:
     get:
@@ -27,9 +27,11 @@ paths:
                 items:
                   $ref: '#/components/schemas/Item'
         '400':
-          description: 'Invalid parameters'
+          $ref: '#/components/responses/Invalid'
         '500':
-          description: 'Server error'
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
   /listing/{id}:
     get:
       summary: Get listing by id
@@ -48,6 +50,8 @@ paths:
           $ref: '#/components/responses/Invalid'
         '500':
           $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
     put:
       summary: Update an existing listing
       description: Updates an existing listing by id
@@ -69,7 +73,8 @@ paths:
           $ref: '#/components/responses/UnableToProcess'
         '500':
           $ref: '#/components/responses/Error'
-
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
   /listing:
     post:
       summary: Add listing
@@ -90,10 +95,18 @@ paths:
           $ref: '#/components/responses/UnableToProcess'
         '500':
           $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
 components:
   securitySchemes: {}
   requestBodies: {}
   responses:
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
     Invalid:
       description: 'Request error'
       content:
@@ -349,3 +362,11 @@ components:
         - status
         - price
       additionalProperties: false
+
+components:
+  securitySchemes:
+    basicAuth:     # <-- arbitrary name for the security scheme
+      type: http
+      scheme: basic
+security:
+  - basicAuth: []  # <-- use the same name here
