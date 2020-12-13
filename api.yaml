@@ -154,7 +154,6 @@ components:
     Query:
       type: object
       properties: {}
-      required: []
       additionalProperties: true
     Error:
       type: object
