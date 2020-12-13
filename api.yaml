@@ -1,0 +1,346 @@
+openapi: '3.0.3'
+info:
+  title: AcreBin
+  description: API for AcreBin DB
+  version: '0.1'
+servers:
+  - url: http://acrebin.api.evanhallmark.com
+paths:
+  /listings:
+    get:
+      summary: Retrieve listings
+      description: Query listings in the database
+      parameters:
+        - name: query
+          required: false
+          in: query
+          schema:
+            type: string
+            description: 'JSON Query'
+      responses:
+        '200':
+          description: 'Valid'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+        '400':
+          description: 'Invalid parameters'
+        '500':
+          description: 'Server error'
+  /listing/{id}:
+    get:
+      summary: Get listing by id
+      description: Retrieve a listing item by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            description: 'Item id'
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidItem'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '500':
+          $ref: '#/components/responses/Error'
+    put:
+      summary: Update an existing listing
+      description: Updates an existing listing by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            description: 'Item id'
+      requestBody:
+        content: {}
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidItem'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '422':
+          $ref: '#/components/responses/UnableToProcess'
+        '500':
+          $ref: '#/components/responses/Error'
+
+  /listing:
+    post:
+      summary: Add listing
+      description: Add a new listing to the database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidItem'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '409':
+          $ref: '#/components/responses/AlreadyExists'
+        '422':
+          $ref: '#/components/responses/UnableToProcess'
+        '500':
+          $ref: '#/components/responses/Error'
+components:
+  securitySchemes: {}
+  requestBodies: {}
+  responses:
+    Invalid:
+      description: 'Request error'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    AlreadyExists:
+      description: 'The item already exists'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnableToProcess:
+      description: 'Failed to process the listing data'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Error:
+      description: 'Error'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidItems:
+      description: 'Valid'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Item'
+    ValidItem:
+      description: 'Valid'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Item'
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: 'The error message'
+      required:
+        - error
+      additionalProperties: false
+    Rep:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'Unique id in AcreBin DB of the listing rep'
+        rep_type:
+          type: string
+          description: 'The type of listing rep'
+          example: 'agent'
+          enum:
+            - broker
+            - agent
+            - co-agent
+        name:
+          type: string
+          description: 'Name of the listing rep'
+          example: 'Alex Doe'
+        email:
+          type: string
+          description: 'Email of the listing rep'
+          example: 'alex.doe@company.com'
+        mobile_phone:
+          type: string
+          description: 'Phone number of the listing rep'
+          example: '555-888-9999'
+        business_phone:
+          type: string
+          description: 'Business phone number of the listing rep'
+          example: '555-666-7777'
+        picture_url:
+          type: string
+          description: 'Photo url (if available)'
+        offices:
+          description: 'The office(s) of the listing rep'
+          type: array
+          items:
+            $ref: '#/components/schemas/Office'
+      required:
+        - id
+        - rep_type
+        - name
+        - email
+        - offices
+      additionalProperties: false
+    Office:
+      type: object
+      properties:
+        id:
+          description: 'The unique id of this office in AcreBin DB'
+          type: string
+        phone:
+          description: 'The phone number of the office'
+          type: string
+        email:
+          description: 'The email address of the office'
+          type: string
+        website:
+          description: 'The website of the office'
+          type: string
+        logo_url:
+          description: 'A URL to the logo of the office'
+          type: string
+      required:
+        - id
+      additionalProperties: false
+    File:
+      type: object
+      properties:
+        id:
+          description: 'The unique id of this file in AcreBin DB'
+          type: string
+        url:
+          description: 'The url of the file'
+          type: string
+        type:
+          description: 'The type of file'
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+      required:
+        - id
+        - url
+        - type
+      additionalProperties: false
+    Item:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'The unique id of the listing in AcreBin DB'
+        title:
+          type: string
+          description: 'The listing title'
+        last_modified:
+          type: string
+          format: date-time
+          description: 'The date and time this listing was last updated'
+        acreage:
+          type: number
+          description: 'Total acres of the listing'
+          example: 0.2
+        status:
+          type: string
+        price:
+          type: number
+          description: 'Price of the listing in dollars'
+          example: 20000000
+        dwelling_sq_ft:
+          type: number
+          description: 'Square footage of the household (if applicable)'
+          example: 1000
+        bedrooms:
+          type: integer
+          description: 'Number of bedrooms'
+          example: 2
+        bathrooms:
+          type: number
+          description: 'Number of bathrooms'
+          example: 1.5
+        taxes:
+          type: number
+          description: 'Estimated taxes'
+          example: 10000
+        hoa:
+          type: number
+          description: 'HOA fees'
+          example: 200
+        description:
+          type: string
+          description: 'Description of the item'
+          example: 'An example description for a lot somewhere'
+        reduced:
+          type: boolean
+          description: 'Whether the price was reduced'
+        commision:
+          description: 'Commision amount of the listing'
+          type: number
+        sale_type:
+          type: string
+          description: 'Sale type of the listing'
+        external_url:
+          type: string
+          description: 'External URL of the listing'
+        embedded_map_url:
+          type: string
+          description: 'Embedded map of the listing'
+        embedded_video_url:
+          type: string
+          description: 'Embedded video URL'
+        featured:
+          description: 'Whether or not the listing is featured'
+          type: boolean
+        address:
+          type: string
+          description: 'Address line 1 or full address of the listing'
+        address_2:
+          description: 'Address line 2 of the listing'
+          type: string
+        city:
+          description: 'City of the listing'
+          type: string
+        state_abbreviation:
+          type: string
+          description: 'State of the listing'
+        zip:
+          type: string
+          description: 'Zip code of the listing'
+        county:
+          description: 'County of the listing'
+          type: string
+        longitude:
+          description: 'Longitude of the listing'
+          type: string
+        latitude:
+          description: 'Latitude of the listing'
+          type: string
+        item_types:
+          type: array
+          description: 'Array of listing types'
+          items:
+            type: string
+        reps:
+          description: 'Array of listing reps'
+          type: array
+          items:
+            $ref: '#/components/schemas/Rep'
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+      required:
+        - id
+        - title
+        - acreage
+        - status
+        - price
+      additionalProperties: false
