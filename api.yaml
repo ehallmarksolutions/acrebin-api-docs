@@ -98,8 +98,11 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
 components:
-  securitySchemes: {}
   requestBodies: {}
+  securitySchemes:
+    basicAuth:     # <-- arbitrary name for the security scheme
+      type: http
+      scheme: basic
   responses:
     UnauthorizedError:
       description: Authentication information is missing or invalid
@@ -363,10 +366,5 @@ components:
         - price
       additionalProperties: false
 
-components:
-  securitySchemes:
-    basicAuth:     # <-- arbitrary name for the security scheme
-      type: http
-      scheme: basic
 security:
   - basicAuth: []  # <-- use the same name here
