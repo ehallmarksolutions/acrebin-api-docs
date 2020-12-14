@@ -350,8 +350,8 @@ components:
         reduced:
           type: boolean
           description: 'Whether the price was reduced'
-        commision:
-          description: 'Commision amount of the listing'
+        commission:
+          description: 'Commission amount of the listing'
           type: number
         sale_type:
           type: string
