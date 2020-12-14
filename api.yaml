@@ -43,13 +43,7 @@ paths:
             example: 0
       responses:
         '200':
-          description: 'Valid'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Item'
+          $ref: '#/components/responses/ValidItems'
         '400':
           $ref: '#/components/responses/Invalid'
         '500':
@@ -121,6 +115,336 @@ paths:
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+  /reps:
+    get:
+      summary: Retrieve reps
+      description: Query reps in the database
+      parameters:
+        - name: filter
+          required: false
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Filter'
+        - name: sort
+          required: false
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sort'
+        - name: limit
+          required: false
+          in: query
+          schema:
+            type: integer
+            description: 'Max number of reps to return.'
+            example: 10
+            default: 10
+        - name: offset
+          required: false
+          in: query
+          schema:
+            type: integer
+            default: 0
+            description: 'Return reps after the offset (for supporting pagination)'
+            example: 0
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidReps'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '500':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+  /rep/{id}:
+    get:
+      summary: Get rep by id
+      description: Retrieve a rep by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            description: 'Rep id'
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidRep'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '500':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+    put:
+      summary: Update an existing rep
+      description: Updates an existing rep by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            description: 'Rep id'
+      requestBody:
+        content: {}
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidRep'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '422':
+          $ref: '#/components/responses/UnableToProcess'
+        '500':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+  /rep:
+    post:
+      summary: Add Rep
+      description: Add a new rep to the database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rep'
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidRep'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '409':
+          $ref: '#/components/responses/AlreadyExists'
+        '422':
+          $ref: '#/components/responses/UnableToProcess'
+        '500':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /offices:
+    get:
+      summary: Retrieve offices
+      description: Query offices in the database
+      parameters:
+        - name: filter
+          required: false
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Filter'
+        - name: sort
+          required: false
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sort'
+        - name: limit
+          required: false
+          in: query
+          schema:
+            type: integer
+            description: 'Max number of offices to return.'
+            example: 10
+            default: 10
+        - name: offset
+          required: false
+          in: query
+          schema:
+            type: integer
+            default: 0
+            description: 'Return reps after the offset (for supporting pagination)'
+            example: 0
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidOffices'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '500':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+  /office/{id}:
+    get:
+      summary: Get office by id
+      description: Retrieve a office by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            description: 'office id'
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidOffice'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '500':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+    put:
+      summary: Update an existing office
+      description: Updates an existing office by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            description: 'office id'
+      requestBody:
+        content: {}
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidOffice'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '422':
+          $ref: '#/components/responses/UnableToProcess'
+        '500':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+  /office:
+    post:
+      summary: Add office
+      description: Add a new office to the database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Office'
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidOffice'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '409':
+          $ref: '#/components/responses/AlreadyExists'
+        '422':
+          $ref: '#/components/responses/UnableToProcess'
+        '500':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /files:
+    get:
+      summary: Retrieve files
+      description: Query files in the database
+      parameters:
+        - name: filter
+          required: false
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Filter'
+        - name: sort
+          required: false
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sort'
+        - name: limit
+          required: false
+          in: query
+          schema:
+            type: integer
+            description: 'Max number of files to return.'
+            example: 10
+            default: 10
+        - name: offset
+          required: false
+          in: query
+          schema:
+            type: integer
+            default: 0
+            description: 'Return reps after the offset (for supporting pagination)'
+            example: 0
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidFiles'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '500':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+  /file/{id}:
+    get:
+      summary: Get file by id
+      description: Retrieve a file by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            description: 'file id'
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidFile'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '500':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+    put:
+      summary: Update an existing file
+      description: Updates an existing file by id
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+            description: 'file id'
+      requestBody:
+        content: {}
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidFile'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '422':
+          $ref: '#/components/responses/UnableToProcess'
+        '500':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+  /file:
+    post:
+      summary: Add file
+      description: Add a new file to the database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/File'
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidFile'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '409':
+          $ref: '#/components/responses/AlreadyExists'
+        '422':
+          $ref: '#/components/responses/UnableToProcess'
+        '500':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
 components:
   requestBodies: {}
   securitySchemes:
@@ -171,9 +495,49 @@ components:
       content:
         application/json:
           schema:
+            $ref: '#/components/schemas/Item'
+    ValidReps:
+      description: 'Valid'
+      content:
+        application/json:
+          schema:
             type: array
             items:
-              $ref: '#/components/schemas/Item'
+              $ref: '#/components/schemas/Rep'
+    ValidRep:
+      description: 'Valid'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Rep'
+    ValidOffices:
+      description: 'Valid'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Office'
+    ValidOffice:
+      description: 'Valid'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Office'
+    ValidFiles:
+      description: 'Valid'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/File'
+    ValidFile:
+      description: 'Valid'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/File'
   schemas:
     Filter:
       type: object
@@ -246,17 +610,17 @@ components:
         picture_url:
           type: string
           description: 'Photo url (if available)'
-        offices:
-          description: 'The office(s) of the listing rep'
+        office_ids:
+          description: 'The office id(s) of the listing rep'
           type: array
           items:
-            $ref: '#/components/schemas/Office'
+            type: string
       required:
         - id
         - rep_type
         - name
         - email
-        - offices
+        - office_ids
       additionalProperties: false
     Office:
       type: object
@@ -397,21 +761,24 @@ components:
           description: 'Array of listing types'
           items:
             type: string
-        reps:
-          description: 'Array of listing reps'
+        rep_ids:
+          description: 'Array of listing rep ids'
           type: array
           items:
-            $ref: '#/components/schemas/Rep'
-        files:
+            type: string
+        file_ids:
           type: array
           items:
-            $ref: '#/components/schemas/File'
+            type: string
       required:
         - id
         - title
         - acreage
         - status
         - price
+        - rep_ids
+        - file_ids
+        - item_types
       additionalProperties: false
 
 security:
