@@ -4,19 +4,43 @@ info:
   description: API for AcreBin DB
   version: '0.1'
 servers:
-  - url: https://acrebin.api.evanhallmark.com
+  - url: https://acrebin.api.evanhallmark.com/api/v1
 paths:
   /listings:
     get:
       summary: Retrieve listings
       description: Query listings in the database
       parameters:
-        - name: query
+        - name: filter
+          required: false
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Filter'
+        - name: sort
+          required: false
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sort'
+        - name: limit
           required: false
           in: query
           schema:
-            type: string
-            description: 'JSON Query. Refer to the Query schema for more information'
+            type: integer
+            description: 'Max number of listings to return.'
+            example: 10
+            default: 10
+        - name: offset
+          required: false
+          in: query
+          schema:
+            type: integer
+            default: 0
+            description: 'Return listings after the offset (for supporting pagination)'
+            example: 0
       responses:
         '200':
           description: 'Valid'
@@ -151,10 +175,35 @@ components:
             items:
               $ref: '#/components/schemas/Item'
   schemas:
-    Query:
+    Filter:
       type: object
-      properties: {}
+      description: 'Apply filters to listings. This part is not complete yet.'
+      properties:
+        filter1:
+          type: array
+          items:
+            type: string
       additionalProperties: true
+    Sort:
+      type: object
+      description: 'Sort listings a specific way. This part is not complete yet.'
+      properties:
+        sort_fields:
+          description: 'Fields to sort by in order of preference'
+          type: array
+          items:
+            type: string
+            example: 'title'
+        sort_directions:
+          type: array
+          items:
+            description: 'Whether to sort the given field in ascending or descending order'
+            type: string
+            enum:
+              - asc
+              - desc
+            default: asc
+      additionalProperties: false
     Error:
       type: object
       properties:
