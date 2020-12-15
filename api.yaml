@@ -789,10 +789,10 @@ components:
           type: string
         longitude:
           description: 'Longitude of the listing'
-          type: string
+          type: number
         latitude:
           description: 'Latitude of the listing'
-          type: string
+          type: number
         item_types:
           type: array
           description: 'Array of listing types'
