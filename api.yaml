@@ -459,6 +459,22 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
 
+
+  /states:
+    get:
+      summary: Retrieve states
+      description: Get full list of states in the database
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidStates'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '500':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+
 components:
   requestBodies: {}
   securitySchemes:
@@ -504,6 +520,14 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/County'
+    ValidStates:
+      description: 'Valid'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/State'
     ValidItems:
       description: 'Valid'
       content:
@@ -613,6 +637,16 @@ components:
       required:
         - state_abbreviation
         - county
+      additionalProperties: false
+    State:
+      type: object
+      properties:
+        state_abbreviation:
+          type: string
+          description: '2 letter state code'
+          example: 'OR'
+      required:
+        - state_abbreviation
       additionalProperties: false
     Rep:
       type: object
