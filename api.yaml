@@ -445,6 +445,20 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
 
+  /counties:
+    get:
+      summary: Retrieve counties
+      description: Get full list of states and counties in the database
+      responses:
+        '200':
+          $ref: '#/components/responses/ValidCounties'
+        '400':
+          $ref: '#/components/responses/Invalid'
+        '500':
+          $ref: '#/components/responses/Error'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
 components:
   requestBodies: {}
   securitySchemes:
@@ -482,6 +496,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    ValidCounties:
+      description: 'Valid'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/County'
     ValidItems:
       description: 'Valid'
       content:
@@ -576,6 +598,21 @@ components:
           description: 'The error message'
       required:
         - error
+      additionalProperties: false
+    County:
+      type: object
+      properties:
+        state_abbreviation:
+          type: string
+          description: '2 letter state code'
+          example: 'OR'
+        county:
+          type: string
+          description: 'Name of the county'
+          example: 'Klamath'
+      required:
+        - state_abbreviation
+        - county
       additionalProperties: false
     Rep:
       type: object
