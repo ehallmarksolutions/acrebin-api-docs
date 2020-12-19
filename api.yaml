@@ -712,6 +712,9 @@ components:
         id:
           type: string
           description: 'The unique id of the listing in AcreBin DB'
+        primary_image_url:
+          type: string
+          description: 'Acrebin hosted primary image of the listing'
         title:
           type: string
           description: 'The listing title'
