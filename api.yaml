@@ -11,20 +11,62 @@ paths:
       summary: Retrieve listings
       description: Query listings in the database
       parameters:
-        - name: filter
+        - name: latitude
           required: false
           in: query
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Filter'
-        - name: sort
+          schema:
+            type: number
+            description: 'Sort listings by distance (longitude query parameter must also be present).'
+            example: 42.9848
+        - name: longitude
           required: false
           in: query
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Sort'
+          schema:
+            type: number
+            description: 'Sort listings by distance (latitude query parameter must also be present).'
+            example: -121.453
+        - name: state
+          required: false
+          in: query
+          schema:
+            type: string
+            description: 'Filter listings by state.'
+            example: 'OR'
+        - name: county
+          required: false
+          in: query
+          schema:
+            type: string
+            description: 'Filter listings by county.'
+            example: 'Klamath'
+        - name: minAcres
+          required: false
+          in: query
+          schema:
+            type: number
+            description: 'Filter listings by minimum acreage.'
+            example: 1.5
+        - name: maxAcres
+          required: false
+          in: query
+          schema:
+            type: number
+            description: 'Filter listings by maximum acreage.'
+            example: 200.0
+        - name: minPrice
+          required: false
+          in: query
+          schema:
+            type: number
+            description: 'Filter listings by minimum price.'
+            example: 100000.0
+        - name: maxPrice
+          required: false
+          in: query
+          schema:
+            type: number
+            description: 'Filter listings by maximum price.'
+            example: 2000000.0
         - name: limit
           required: false
           in: query
@@ -120,20 +162,6 @@ paths:
       summary: Retrieve reps
       description: Query reps in the database
       parameters:
-        - name: filter
-          required: false
-          in: query
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Filter'
-        - name: sort
-          required: false
-          in: query
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Sort'
         - name: limit
           required: false
           in: query
@@ -230,20 +258,6 @@ paths:
       summary: Retrieve offices
       description: Query offices in the database
       parameters:
-        - name: filter
-          required: false
-          in: query
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Filter'
-        - name: sort
-          required: false
-          in: query
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Sort'
         - name: limit
           required: false
           in: query
@@ -340,20 +354,6 @@ paths:
       summary: Retrieve files
       description: Query files in the database
       parameters:
-        - name: filter
-          required: false
-          in: query
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Filter'
-        - name: sort
-          required: false
-          in: query
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Sort'
         - name: limit
           required: false
           in: query
@@ -585,35 +585,6 @@ components:
           schema:
             $ref: '#/components/schemas/File'
   schemas:
-    Filter:
-      type: object
-      description: 'Apply filters to listings. This part is not complete yet.'
-      properties:
-        filter1:
-          type: array
-          items:
-            type: string
-      additionalProperties: true
-    Sort:
-      type: object
-      description: 'Sort listings a specific way. This part is not complete yet.'
-      properties:
-        sort_fields:
-          description: 'Fields to sort by in order of preference'
-          type: array
-          items:
-            type: string
-            example: 'title'
-        sort_directions:
-          type: array
-          items:
-            description: 'Whether to sort the given field in ascending or descending order'
-            type: string
-            enum:
-              - asc
-              - desc
-            default: asc
-      additionalProperties: false
     Error:
       type: object
       properties:
