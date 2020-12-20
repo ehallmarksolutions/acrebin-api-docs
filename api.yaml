@@ -25,6 +25,24 @@ paths:
             type: number
             description: 'Sort listings by distance (latitude query parameter must also be present).'
             example: -121.453
+        - name: sortByPrice
+          required: false
+          in: query
+          schema:
+            type: string
+            description: 'Sort listings by price'
+            enum:
+              - asc
+              - desc
+        - name: sortByAcres
+          required: false
+          in: query
+          schema:
+            type: string
+            description: 'Sort listings by acreage'
+            enum:
+              - asc
+              - desc
         - name: state
           required: false
           in: query
