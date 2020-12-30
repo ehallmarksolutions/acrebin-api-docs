@@ -619,12 +619,17 @@ components:
           type: string
           description: '2 letter state code'
           example: 'OR'
+        state:
+          type: string
+          description: 'State full name'
+          example: 'Oregon'
         county:
           type: string
           description: 'Name of the county'
           example: 'Klamath'
       required:
         - state_abbreviation
+        - state
         - county
       additionalProperties: false
     State:
@@ -634,8 +639,13 @@ components:
           type: string
           description: '2 letter state code'
           example: 'OR'
+        state:
+          type: string
+          description: 'State full name'
+          example: 'Oregon'
       required:
         - state_abbreviation
+        - state
       additionalProperties: false
     Rep:
       type: object
@@ -806,7 +816,10 @@ components:
           type: string
         state_abbreviation:
           type: string
-          description: 'State of the listing'
+          description: 'State abbreviation of the listing'
+        state:
+          type: string
+          description: 'State name of the listing'
         zip:
           type: string
           description: 'Zip code of the listing'
@@ -833,6 +846,10 @@ components:
           type: array
           items:
             type: string
+        file_urls:
+          type: array
+          items:
+            type: string
       required:
         - id
         - title
@@ -841,6 +858,7 @@ components:
         - price
         - rep_ids
         - file_ids
+        - file_urls
         - item_types
       additionalProperties: false
 
