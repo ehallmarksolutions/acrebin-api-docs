@@ -778,6 +778,12 @@ components:
           example: 0.2
         status:
           type: string
+          enum:
+          - "Available"
+          - "Contract Pending"
+          - "Sold"
+          - "Under Contract"
+          - "New Listing"
         price:
           type: number
           description: 'Price of the listing in dollars'
@@ -806,21 +812,6 @@ components:
           type: string
           description: 'Description of the item'
           example: 'An example description for a lot somewhere'
-        reduced:
-          type: boolean
-          description: 'Whether the price was reduced'
-        commission:
-          description: 'Commission amount of the listing'
-          type: number
-        sale_type:
-          type: string
-          description: 'Sale type of the listing'
-        external_url:
-          type: string
-          description: 'External URL of the listing'
-        featured:
-          description: 'Whether or not the listing is featured'
-          type: boolean
         address:
           type: string
           description: 'Address line 1 or full address of the listing'
@@ -850,6 +841,23 @@ components:
           description: 'Array of listing types'
           items:
             type: string
+            enum:
+            - "Beachfront"
+            - "Lakefront"
+            - "Riverfront"
+            - "Residential Land"
+            - "Timberland"
+            - "Farms"
+            - "Residential Property"
+            - "Ranches"
+            - "Lot"
+            - "Hunting Land"
+            - "Recreational Land"
+            - "Horse Property"
+            - "Single Family"
+            - "Undeveloped Land"
+            - "Commercial Land"
+            - "Commercial"
         bubble_user_id:
           type: string
           description: 'Front end bubble.io id of user submitting the listing'
