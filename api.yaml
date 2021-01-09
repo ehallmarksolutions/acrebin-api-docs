@@ -130,8 +130,8 @@ paths:
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
-    put:
-      summary: Update an existing listing
+    post:
+      summary: Create or update an existing listing
       description: Updates an existing listing by id
       parameters:
         - name: id
@@ -147,28 +147,6 @@ paths:
           $ref: '#/components/responses/ValidItem'
         '400':
           $ref: '#/components/responses/Invalid'
-        '422':
-          $ref: '#/components/responses/UnableToProcess'
-        '500':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-  /listing:
-    post:
-      summary: Add listing
-      description: Add a new listing to the database
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Item'
-      responses:
-        '200':
-          $ref: '#/components/responses/ValidItem'
-        '400':
-          $ref: '#/components/responses/Invalid'
-        '409':
-          $ref: '#/components/responses/AlreadyExists'
         '422':
           $ref: '#/components/responses/UnableToProcess'
         '500':
@@ -225,16 +203,17 @@ paths:
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
-    put:
-      summary: Update an existing rep
-      description: Updates an existing rep by id
+  /user/{bubble_id}
+    post:
+      summary: Create or update a user
+      description: Create or update an existing user by bubble_id
       parameters:
-        - name: id
+        - name: bubble_id
           required: true
           in: path
           schema:
             type: string
-            description: 'Rep id'
+            description: 'Front end id from bubble.io'
       requestBody:
         content: {}
       responses:
@@ -248,29 +227,6 @@ paths:
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
-  /rep:
-    post:
-      summary: Add Rep
-      description: Add a new rep to the database
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Rep'
-      responses:
-        '200':
-          $ref: '#/components/responses/ValidRep'
-        '400':
-          $ref: '#/components/responses/Invalid'
-        '409':
-          $ref: '#/components/responses/AlreadyExists'
-        '422':
-          $ref: '#/components/responses/UnableToProcess'
-        '500':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-
   /offices:
     get:
       summary: Retrieve offices
@@ -321,52 +277,6 @@ paths:
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
-    put:
-      summary: Update an existing office
-      description: Updates an existing office by id
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-            description: 'office id'
-      requestBody:
-        content: {}
-      responses:
-        '200':
-          $ref: '#/components/responses/ValidOffice'
-        '400':
-          $ref: '#/components/responses/Invalid'
-        '422':
-          $ref: '#/components/responses/UnableToProcess'
-        '500':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-  /office:
-    post:
-      summary: Add office
-      description: Add a new office to the database
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Office'
-      responses:
-        '200':
-          $ref: '#/components/responses/ValidOffice'
-        '400':
-          $ref: '#/components/responses/Invalid'
-        '409':
-          $ref: '#/components/responses/AlreadyExists'
-        '422':
-          $ref: '#/components/responses/UnableToProcess'
-        '500':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-
   /files:
     get:
       summary: Retrieve files
@@ -417,52 +327,6 @@ paths:
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
-    put:
-      summary: Update an existing file
-      description: Updates an existing file by id
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-            description: 'file id'
-      requestBody:
-        content: {}
-      responses:
-        '200':
-          $ref: '#/components/responses/ValidFile'
-        '400':
-          $ref: '#/components/responses/Invalid'
-        '422':
-          $ref: '#/components/responses/UnableToProcess'
-        '500':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-  /file:
-    post:
-      summary: Add file
-      description: Add a new file to the database
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/File'
-      responses:
-        '200':
-          $ref: '#/components/responses/ValidFile'
-        '400':
-          $ref: '#/components/responses/Invalid'
-        '409':
-          $ref: '#/components/responses/AlreadyExists'
-        '422':
-          $ref: '#/components/responses/UnableToProcess'
-        '500':
-          $ref: '#/components/responses/Error'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-
   /counties:
     get:
       summary: Retrieve counties
@@ -476,8 +340,6 @@ paths:
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
-
-
   /states:
     get:
       summary: Retrieve states
@@ -491,8 +353,6 @@ paths:
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
-
-
 components:
   requestBodies: {}
   securitySchemes:
@@ -574,6 +434,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Rep'
+    ValidUser:
+      description: 'Valid'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
     ValidOffices:
       description: 'Valid'
       content:
@@ -691,6 +557,29 @@ components:
         - name
         - email
         - office_ids
+      additionalProperties: false
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'Name of the user'
+          example: 'Alex Doe'
+        email:
+          type: string
+          description: 'Email of the user'
+          example: 'alex.doe@company.com'
+        mobile_phone:
+          type: string
+          description: 'Phone number of the user'
+          example: '555-888-9999'
+        business_phone:
+          type: string
+          description: 'Business phone number user'
+          example: '555-666-7777'
+      required:
+        - name
+        - email
       additionalProperties: false
     Office:
       type: object
