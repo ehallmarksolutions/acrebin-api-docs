@@ -130,7 +130,7 @@ paths:
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
-  /listing/{bubble_id}:
+  /ablisting/{bubble_id}:
     post:
       summary: Create or update an existing listing
       description: Updates an existing listing by bubble_id
