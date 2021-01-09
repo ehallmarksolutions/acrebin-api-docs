@@ -130,21 +130,25 @@ paths:
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+  /listing/{bubble_id}:
     post:
       summary: Create or update an existing listing
-      description: Updates an existing listing by id
+      description: Updates an existing listing by bubble_id
       parameters:
-        - name: id
+        - name: bubble_id
           required: true
           in: path
           schema:
             type: string
-            description: 'Item id'
+            description: 'Front end id from bubble.io'
       requestBody:
-        content: {}
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ABListing'
       responses:
         '200':
-          $ref: '#/components/responses/ValidItem'
+          $ref: '#/components/responses/ValidABListing'
         '400':
           $ref: '#/components/responses/Invalid'
         '422':
@@ -203,7 +207,7 @@ paths:
           $ref: '#/components/responses/Error'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
-  /user/{bubble_id}
+  /user/{bubble_id}:
     post:
       summary: Create or update a user
       description: Create or update an existing user by bubble_id
@@ -215,10 +219,13 @@ paths:
             type: string
             description: 'Front end id from bubble.io'
       requestBody:
-        content: {}
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
       responses:
         '200':
-          $ref: '#/components/responses/ValidRep'
+          $ref: '#/components/responses/ValidUser'
         '400':
           $ref: '#/components/responses/Invalid'
         '422':
@@ -420,6 +427,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Item'
+    ValidABListing:
+      description: 'Valid'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ABListing'
     ValidReps:
       description: 'Valid'
       content:
@@ -747,6 +760,110 @@ components:
         - price
         - rep_ids
         - file_ids
+        - file_urls
+        - item_types
+      additionalProperties: false
+    ABListing:
+      type: object
+      properties:
+        primary_image_url:
+          type: string
+          description: 'Acrebin hosted primary image of the listing'
+        title:
+          type: string
+          description: 'The listing title'
+        acreage:
+          type: number
+          description: 'Total acres of the listing'
+          example: 0.2
+        status:
+          type: string
+        price:
+          type: number
+          description: 'Price of the listing in dollars'
+          example: 20000000
+        dwelling_sq_ft:
+          type: number
+          description: 'Square footage of the household (if applicable)'
+          example: 1000
+        bedrooms:
+          type: integer
+          description: 'Number of bedrooms'
+          example: 2
+        bathrooms:
+          type: number
+          description: 'Number of bathrooms'
+          example: 1.5
+        taxes:
+          type: number
+          description: 'Estimated taxes'
+          example: 10000
+        hoa:
+          type: number
+          description: 'HOA fees'
+          example: 200
+        description:
+          type: string
+          description: 'Description of the item'
+          example: 'An example description for a lot somewhere'
+        reduced:
+          type: boolean
+          description: 'Whether the price was reduced'
+        commission:
+          description: 'Commission amount of the listing'
+          type: number
+        sale_type:
+          type: string
+          description: 'Sale type of the listing'
+        external_url:
+          type: string
+          description: 'External URL of the listing'
+        featured:
+          description: 'Whether or not the listing is featured'
+          type: boolean
+        address:
+          type: string
+          description: 'Address line 1 or full address of the listing'
+        address_2:
+          description: 'Address line 2 of the listing'
+          type: string
+        city:
+          description: 'City of the listing'
+          type: string
+        state_abbreviation:
+          type: string
+          description: 'State abbreviation of the listing'
+        zip:
+          type: string
+          description: 'Zip code of the listing'
+        county:
+          description: 'County of the listing'
+          type: string
+        longitude:
+          description: 'Longitude of the listing'
+          type: number
+        latitude:
+          description: 'Latitude of the listing'
+          type: number
+        item_types:
+          type: array
+          description: 'Array of listing types'
+          items:
+            type: string
+        bubble_user_id:
+          type: string
+          description: 'Front end bubble.io id of user submitting the listing'
+        file_urls:
+          type: array
+          items:
+            type: string
+      required:
+        - id
+        - title
+        - acreage
+        - status
+        - price
+        - bubble_user_id
         - file_urls
         - item_types
       additionalProperties: false
