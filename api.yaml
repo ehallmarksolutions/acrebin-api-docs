@@ -590,6 +590,10 @@ components:
           type: string
           description: 'Business phone number user'
           example: '555-666-7777'
+        picture_url:
+          type: string
+          description: 'Link to a picture of the User'
+          example: 'https://photo-of-me.com/me.jpg'
       required:
         - name
         - email
