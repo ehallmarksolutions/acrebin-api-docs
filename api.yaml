@@ -57,6 +57,13 @@ paths:
             type: string
             description: 'Filter listings by county.'
             example: 'Klamath'
+        - name: repId
+          required: false
+          in: query
+          schema:
+            type: string
+            description: 'Filter listings by rep id.'
+            example: 'rep-id'
         - name: minAcres
           required: false
           in: query
